@@ -35,7 +35,6 @@ firmware project well worth reading alongside this repository. It has things nob
 - **Ghidra tooling** for the 1.6.1 image, including the anchor and vtable comparison approach
   that our own 1.6.1 → 1.6.8 cross-check re-implements.
 
-It builds on some of the work here and credits it carefully. The research flows both ways.
 
 ## Code snapshot (October 2026)
 
