@@ -5,7 +5,7 @@ This builds source locally; it is not a recommendation to install P27. Read [kno
 You need Python 3, Git, a native C/C++ compiler (`cc` and `g++`), and your own exact original Bento **1.6.1** firmware. The builder checks the main image SHA256 and refuses other inputs. Never substitute an already-modified image.
 
 ```sh
-git clone https://github.com/t4kbsv99sn-source/bento-community-lab.git
+git clone https://github.com/hunting-ghosts/bento-community-lab.git
 cd bento-community-lab
 python3 -m venv .venv
 . .venv/bin/activate

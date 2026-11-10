@@ -1,0 +1,8 @@
+{
+ "_comment": "Maps the 'reason' text of each write in FULL_MANIFEST.json to a feature name (first matching regular expression wins). Replace these example rules with your own.",
+ "rules": [
+  {"match": "(?i)button|input", "feature": "input handling"},
+  {"match": "(?i)palette|identity", "feature": "identity and palette"},
+  {"match": ".", "feature": "other"}
+ ]
+}

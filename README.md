@@ -1,49 +1,86 @@
-# Bento Community Lab 
+# Bento Community Lab
 
-An experimental community-driven project exploring firmware modifications, workflow improvements, new instruments, and expanded sequencing capabilities for the **1010music Bento**.
+Firmware research for the **1010music Bento**, from the work on
+[Bento Playground](https://github.com/hunting-ghosts/bento-playground). For understanding or
+modifying the Bento firmware. If you want to *use* the mods, go to Bento Playground.
 
-**Bento Playground** is the current development direction: immediate access, deeper sequencing and expressive sound design while keeping Bento's minimal workflow.
+## Research
 
-## Current state — 26 October 2026
+**[research/](research/)** collects what we know about the firmware, written for other modders:
 
-This repository now contains the **P27 / 1.6P27 development source snapshot**, plus the separate Playground design preview. **P27 is not a stable release:** hardware reports still identify incomplete macro mapping and unverified motion recording. Publishing their source does not mean these features are finished.
+- **1.6.1:** memory map, areas you must never write, memory protection, the stock crash record,
+  SD-card access, and how the model, Undo, UI, sequencer, sampler and mixer work inside.
+- **1.6.8:** what changed compared with 1.6.1 (free space, RAM, renumbered keys and ids, changed
+  structures and functions) and where every patch site moved.
+- **Porting:** a method for moving a mod to a new firmware version without guessing, with
+  read-only tools.
+- Ghidra scripts and a display emulator.
 
-The previous public **CH10 / 1.6HA** snapshot remains available at commit [`302ebf4`](https://github.com/t4kbsv99sn-source/bento-community-lab/tree/302ebf4a7e63f857c509705933f81e000dbd8a6d). It is an earlier experimental version, not a stability guarantee.
+Every finding says how it is known: seen on hardware, shown in an emulator, or read from the
+code. No 1010music firmware is included; you need your own copy of the official update files.
 
-## What's included
+Findings and corrections are welcome as pull requests.
 
-- **Sequencing:** two parameter locks per step/note, trigger conditions, drum and melodic Euclidean tools, chord editing, and Chord / Euclid / Step / Sequence navigation.
-- **Sound design:** programmable Kick, Snare, Hi-hat, Clap and Tom/FM-percussion engines; Analog/subtractive synthesis work; drum-synth modulation matrix destinations; MOD/MATRIX editing access.
-- **Performance and workflow:** tempo, tap tempo, swing, key/scale, velocity, octave and chord controls; track-selection pad feedback, Undo shortcut and navigation fixes.
-- **Mixing:** per-track EQ, compressor and soft clipping; supported melodic note-owned delay/reverb sends.
-- **Experimental source:** motion recording and assignable macros. See the known issues before treating these as usable features.
-- **Visual design:** original palette, square step grid, two lock strips, macro, mixer, channel-strip and modulation studies in an interactive browser preview. These designs have **not** replaced the firmware screens.
+## Also worth a look: bento_enhanced
 
-Read the [changes since CH10](docs/CHANGELOG.md), [feature status](docs/FEATURES_AND_STATUS.md), [known issues](docs/KNOWN_ISSUES.md) and [publication checks](docs/PUBLICATION.md).
+**[romanjeff/bento_enhanced](https://github.com/romanjeff/bento_enhanced)** is a Bento
+firmware project well worth reading alongside this repository. It has things nobody else has:
 
-## Explore or build
+- **Aftertouch sequencing**: per-note pad pressure recorded in the piano roll and played back,
+  on External tracks (poly aftertouch or channel pressure) and on Bento's own instruments, plus
+  live poly aftertouch out of External tracks.
+- **Its own firmware documentation**: the two-chip hardware layout and the finding that the UI
+  runs on the M4 core, the UI framework (scene graph, property systems, encoder behaviour), the
+  modulation source table, External tracks and MIDI out, project settings, the master compressor.
+- **Ghidra tooling** for the 1.6.1 image, including the anchor and vtable comparison approach
+  that our own 1.6.1 → 1.6.8 cross-check re-implements.
 
-- [Open/download the design preview source](design/bento-playground/README.md).
-- [Build instructions](docs/QUICKSTART.md): supply your own original Bento 1.6.1 firmware. No manufacturer firmware or installable binaries are distributed here.
-- [Developer guide](docs/DEVELOPER_GUIDE.md): source map, tests and contribution guidance.
+It builds on some of the work here and credits it carefully. The research flows both ways.
 
-PROJ acts as Shift. In the current development source, **PROJ + PLAY** opens Performance, **PROJ + Left** is Undo and **PROJ + Up** enters SD-card mode. Original project/settings entries are reached through the Performance burger menu. Earlier snapshots have different bindings.
+## Code snapshot (October 2026)
 
-## Contributions
+The source code in this repository is a **frozen snapshot** of the early mod work (P27,
+26 October 2026, for stock firmware 1.6.1). It is not maintained here and is not a release.
+Current features and installable versions are in
+[Bento Playground](https://github.com/hunting-ghosts/bento-playground).
 
-Bug reports, reproducible hardware observations, code reviews and design feedback are welcome. Include the exact version, build hash, reproduction steps and what you expected. Software tests and actual device results are tracked separately. Much of this project was developed with AI coding assistants and tested incrementally on hardware.
+The snapshot stays because other projects build on it.
+[romanjeff/bento_enhanced](https://github.com/romanjeff/bento_enhanced) ports several of its
+features (trigger conditions, inspect-a-step, hold shortcuts, step-lock UI), and its firmware
+notes build partly on the design records in `docs/releases/`.
+
+- Fixed reference: tag `snapshot-2026-10`.
+- These paths will not move: `k16_work/`, `eu4_work/`, `chord_work/`, `research/ghidra_scripts/`,
+  `docs/releases/`.
+- An earlier snapshot (CH10) is at commit
+  [`302ebf4`](https://github.com/hunting-ghosts/bento-community-lab/tree/302ebf4a7e63f857c509705933f81e000dbd8a6d).
+- What the snapshot contains and how far it worked at the time:
+  [features and status](docs/FEATURES_AND_STATUS.md), [known issues](docs/KNOWN_ISSUES.md),
+  [build instructions](docs/QUICKSTART.md), [developer guide](docs/DEVELOPER_GUIDE.md).
+  These documents describe the snapshot as of October 2026.
+- The [design preview](design/bento-playground/README.md) is an early visual study, not the
+  current design.
 
 ## Disclaimer
 
-Bento Lab is unofficial and is not affiliated with or endorsed by 1010music. Firmware modifications are performed at your own risk and may cause instability or data loss. Do not modify or overwrite the bootloader. Keep original firmware and project backups and understand the device's recovery process before flashing modified firmware. No automatic flashing is performed by these tools.
+Unofficial; not affiliated with or endorsed by 1010music. Firmware modifications are at your own
+risk and can cause instability or data loss. Never modify or overwrite the bootloader. Keep
+backups of the original firmware and your projects, and know the device's recovery process
+before flashing anything. Nothing in this repository flashes a device.
+
+Much of this project was developed with AI coding assistants and tested step by step on hardware.
 
 ## Related projects
 
-- [romanjeff/bento_enhanced](https://github.com/romanjeff/bento_enhanced)
-- [viktorakos95/blackbox-mod](https://github.com/viktorakos95/blackbox-mod)
-- [pocketrave/blackbox](https://github.com/pocketrave/blackbox)
-- [Blindsmyth/custom-blackbox-fw](https://github.com/Blindsmyth/custom-blackbox-fw)
+- [hunting-ghosts/bento-playground](https://github.com/hunting-ghosts/bento-playground): the
+  current mod, for musicians
+- [romanjeff/bento_enhanced](https://github.com/romanjeff/bento_enhanced): aftertouch sequencing,
+  sequencer extras and its own firmware documentation
+- Blackbox mods: [viktorakos95/blackbox-mod](https://github.com/viktorakos95/blackbox-mod),
+  [pocketrave/blackbox](https://github.com/pocketrave/blackbox),
+  [Blindsmyth/custom-blackbox-fw](https://github.com/Blindsmyth/custom-blackbox-fw)
 
 ## License
 
-Project code is GPL-3.0-or-later. Bundled third-party code keeps its original MIT/LGPL-2.1 licences; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). No proprietary reference artwork or fonts are bundled with the design preview.
+GPL-3.0-or-later. Bundled third-party code keeps its original MIT / LGPL-2.1 licences; see
+[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
